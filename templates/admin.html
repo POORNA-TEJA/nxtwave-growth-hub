@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Admin Campaign Dashboard
+    </title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+    <section class="admin-section">
+
+        <div class="admin-container">
+
+
+            <div class="admin-header">
+
+                <p class="tag">
+                    CAMPAIGN CONTROL CENTER
+                </p>
+
+                <h1>
+                    Growth Campaign Dashboard
+                </h1>
+
+                <p>
+                    Monitor registrations, referrals,
+                    and campaign progress.
+                </p>
+
+            </div>
+
+
+            <!-- =================================
+                 OVERVIEW CARDS
+            ================================== -->
+
+            <div class="admin-stats">
+
+
+                <div class="admin-stat-card">
+
+                    <p class="card-label">
+                        Total Registrations
+                    </p>
+
+                    <h2>
+                        {{ total_registrations }}
+                    </h2>
+
+                    <span>
+                        Target: {{ target }}
+                    </span>
+
+                </div>
+
+
+                <div class="admin-stat-card">
+
+                    <p class="card-label">
+                        Referral Registrations
+                    </p>
+
+                    <h2>
+                        {{ referral_registrations }}
+                    </h2>
+
+                    <span>
+                        Growth-driven
+                    </span>
+
+                </div>
+
+
+                <div class="admin-stat-card">
+
+                    <p class="card-label">
+                        Direct Registrations
+                    </p>
+
+                    <h2>
+                        {{ direct_registrations }}
+                    </h2>
+
+                    <span>
+                        Without referral
+                    </span>
+
+                </div>
+
+
+                <div class="admin-stat-card">
+
+                    <p class="card-label">
+                        Active Referrers
+                    </p>
+
+                    <h2>
+                        {{ total_referrers }}
+                    </h2>
+
+                    <span>
+                        Students referring others
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- =================================
+                 CAMPAIGN PROGRESS
+            ================================== -->
+
+            <div class="admin-panel">
+
+                <div class="admin-panel-header">
+
+                    <div>
+
+                        <p class="card-label">
+                            Campaign Progress
+                        </p>
+
+                        <h2>
+                            {{ total_registrations }}
+                            /
+                            {{ target }}
+                        </h2>
+
+                    </div>
+
+                    <strong class="admin-percentage">
+                        {{ progress }}%
+                    </strong>
+
+                </div>
+
+
+                <div class="progress-bar admin-progress">
+
+                    <div
+                        class="progress-fill"
+                        style="width: {{ progress }}%;">
+                    </div>
+
+                </div>
+
+
+                <p class="progress-caption">
+                    Registration target for the campaign:
+                    {{ target }} students
+                </p>
+
+            </div>
+
+
+            <!-- =================================
+                 TOP REFERRERS
+            ================================== -->
+
+            <div class="admin-panel">
+
+                <div class="admin-panel-title">
+
+                    <div>
+
+                        <p class="card-label">
+                            REFERRAL PERFORMANCE
+                        </p>
+
+                        <h2>
+                            Top Referrers
+                        </h2>
+
+                    </div>
+
+                    <a
+                        href="/leaderboard"
+                        class="small-action-btn">
+
+                        Full Leaderboard
+
+                    </a>
+
+                </div>
+
+
+                <div class="admin-table-wrapper">
+
+                    <table class="admin-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Rank
+                                </th>
+
+                                <th>
+                                    Student
+                                </th>
+
+                                <th>
+                                    College
+                                </th>
+
+                                <th>
+                                    Referral Code
+                                </th>
+
+                                <th>
+                                    Referrals
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            {% for referrer in top_referrers %}
+
+                            <tr>
+
+                                <td>
+
+                                    {% if loop.index == 1 %}
+                                        🥇
+                                    {% elif loop.index == 2 %}
+                                        🥈
+                                    {% elif loop.index == 3 %}
+                                        🥉
+                                    {% else %}
+                                        {{ loop.index }}
+                                    {% endif %}
+
+                                </td>
+
+
+                                <td>
+                                    {{ referrer["name"] }}
+                                </td>
+
+
+                                <td>
+                                    {{ referrer["college"] }}
+                                </td>
+
+
+                                <td class="admin-code">
+                                    {{ referrer["referral_code"] }}
+                                </td>
+
+
+                                <td class="admin-referral-count">
+                                    {{ referrer["referral_count"] }}
+                                </td>
+
+                            </tr>
+
+                            {% else %}
+
+                            <tr>
+
+                                <td
+                                    colspan="5"
+                                    class="empty-leaderboard">
+
+                                    No referral activity yet.
+
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================
+                 RECENT REGISTRATIONS
+            ================================== -->
+
+            <div class="admin-panel">
+
+                <div class="admin-panel-title">
+
+                    <div>
+
+                        <p class="card-label">
+                            REGISTRATION ACTIVITY
+                        </p>
+
+                        <h2>
+                            Recent Registrations
+                        </h2>
+
+                    </div>
+
+                    <span class="live-indicator">
+                        ● LIVE DATA
+                    </span>
+
+                </div>
+
+
+                <div class="admin-table-wrapper">
+
+                    <table class="admin-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Student
+                                </th>
+
+                                <th>
+                                    College
+                                </th>
+
+                                <th>
+                                    Email
+                                </th>
+
+                                <th>
+                                    Source
+                                </th>
+
+                                <th>
+                                    Date
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            {% for registration in recent_registrations %}
+
+                            <tr>
+
+                                <td>
+                                    {{ registration["name"] }}
+                                </td>
+
+
+                                <td>
+                                    {{ registration["college"] }}
+                                </td>
+
+
+                                <td>
+                                    {{ registration["email"] }}
+                                </td>
+
+
+                                <td>
+
+                                    {% if registration["referred_by"] %}
+
+                                        <span class="source-referral">
+                                            Referral
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="source-direct">
+                                            Direct
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <td>
+                                    {{ registration["created_at"] }}
+                                </td>
+
+                            </tr>
+
+                            {% else %}
+
+                            <tr>
+
+                                <td
+                                    colspan="5"
+                                    class="empty-leaderboard">
+
+                                    No registrations yet.
+
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================
+                 ACTIONS
+            ================================== -->
+
+            <div class="admin-actions">
+
+                <a
+                    href="/"
+                    class="secondary-btn">
+
+                    Back to Workshop
+
+                </a>
+
+
+                <a
+                    href="/leaderboard"
+                    class="primary-btn">
+
+                    View Leaderboard
+
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+</body>
+
+</html>

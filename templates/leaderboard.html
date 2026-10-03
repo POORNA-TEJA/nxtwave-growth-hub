@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Campus Referral Leaderboard
+    </title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+    <section class="leaderboard-section">
+
+        <div class="leaderboard-container">
+
+
+            <div class="leaderboard-header">
+
+                <p class="tag">
+                    CAMPUS GROWTH
+                </p>
+
+                <h1>
+                    Referral Leaderboard
+                </h1>
+
+                <p>
+                    Students helping more people discover
+                    the AI workshop.
+                </p>
+
+            </div>
+
+
+            <div class="leaderboard-progress">
+
+                <div>
+
+                    <p class="card-label">
+                        Campaign Progress
+                    </p>
+
+                    <h2>
+                        {{ total_registrations }}
+                        /
+                        {{ target }}
+                    </h2>
+
+                </div>
+
+                <strong>
+                    {{ progress }}%
+                </strong>
+
+            </div>
+
+
+            <div class="leaderboard-table-wrapper">
+
+                <table class="leaderboard-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Rank
+                            </th>
+
+                            <th>
+                                Student
+                            </th>
+
+                            <th>
+                                College
+                            </th>
+
+                            <th>
+                                Referrals
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for leader in leaders %}
+
+                        <tr>
+
+                            <td>
+
+                                {% if loop.index == 1 %}
+                                    🥇
+                                {% elif loop.index == 2 %}
+                                    🥈
+                                {% elif loop.index == 3 %}
+                                    🥉
+                                {% else %}
+                                    {{ loop.index }}
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+                                {{ leader["name"] }}
+                            </td>
+
+                            <td>
+                                {{ leader["college"] }}
+                            </td>
+
+                            <td class="leader-referrals">
+                                {{ leader["referral_count"] }}
+                            </td>
+
+                        </tr>
+
+                        {% else %}
+
+                        <tr>
+
+                            <td
+                                colspan="4"
+                                class="empty-leaderboard">
+
+                                No registrations yet.
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <div class="leaderboard-actions">
+
+                <a
+                    href="/"
+                    class="secondary-btn">
+
+                    Back to Workshop
+
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+</body>
+
+</html>

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Your Growth Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<section class="dashboard-section">
+
+    <div class="dashboard-container">
+
+
+        <div class="dashboard-header">
+
+            <p class="tag">
+                YOUR GROWTH DASHBOARD
+            </p>
+
+            <h1>
+                Welcome, {{ student["name"] }}!
+            </h1>
+
+            <p>
+                Track the students you bring to the workshop.
+            </p>
+
+        </div>
+
+
+        <div class="dashboard-grid">
+
+
+            <div class="dashboard-card">
+
+                <p class="card-label">
+                    Your Referral Code
+                </p>
+
+                <h2 class="referral-code">
+                    {{ student["referral_code"] }}
+                </h2>
+
+            </div>
+
+
+            <div class="dashboard-card">
+
+                <p class="card-label">
+                    Successful Referrals
+                </p>
+
+                <h2>
+                    {{ referral_count }}
+                </h2>
+
+            </div>
+
+
+            <div class="dashboard-card">
+
+                <p class="card-label">
+                    Your Current Rank
+                </p>
+
+                <h2>
+                    #{{ rank }}
+                </h2>
+
+            </div>
+
+
+            <div class="dashboard-card">
+
+                <p class="card-label">
+                    Total Registrations
+                </p>
+
+                <h2>
+                    {{ total_registrations }}
+                </h2>
+
+                <p class="small-text">
+                    Target: {{ target }}
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="progress-card">
+
+            <div class="progress-header">
+
+                <div>
+
+                    <p class="card-label">
+                        Campaign Progress
+                    </p>
+
+                    <h2>
+                        {{ total_registrations }} / {{ target }}
+                    </h2>
+
+                </div>
+
+                <strong>
+                    {{ progress }}%
+                </strong>
+
+            </div>
+
+
+            <div class="progress-bar">
+
+                <div
+                    class="progress-fill"
+                    style="width: {{ progress }}%;">
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="milestone-card">
+
+            <div class="milestone-header">
+
+                <div>
+
+                    <p class="card-label">
+                        REFERRAL MILESTONE
+                    </p>
+
+                    <h2>
+                        {% if referral_count == 0 %}
+                            Start Your Growth
+                        {% elif remaining_referrals == 0 %}
+                            Milestone Reached 🎉
+                        {% else %}
+                            Keep Growing 🚀
+                        {% endif %}
+                    </h2>
+
+                </div>
+
+                <div class="milestone-count">
+
+                    {{ referral_count }}
+                    /
+                    {{ next_milestone }}
+
+                </div>
+
+            </div>
+
+
+            <p class="milestone-message">
+                {{ referral_message }}
+            </p>
+
+
+            <div class="milestone-progress">
+
+                <div
+                    class="milestone-progress-fill"
+                    style="width: {{ milestone_progress }}%;">
+                </div>
+
+            </div>
+
+
+            <div class="milestone-footer">
+
+                <span>
+                    Current referrals:
+                    <strong>{{ referral_count }}</strong>
+                </span>
+
+                <span>
+                    Next milestone:
+                    <strong>{{ next_milestone }}</strong>
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="share-dashboard-card">
+
+            <p class="card-label">
+                GROW YOUR NETWORK
+            </p>
+
+            <h2>
+                Invite Your Friends
+            </h2>
+
+            <p>
+                Share your personal referral link and
+                help more students join the workshop.
+            </p>
+
+
+            <div class="dashboard-link-container">
+
+                <input
+                    type="text"
+                    id="dashboardReferralLink"
+                    value="{{ referral_link }}"
+                    readonly>
+
+                <button
+                    type="button"
+                    class="copy-btn"
+                    onclick="copyReferralLink()">
+
+                    Copy
+
+                </button>
+
+            </div>
+
+
+            <div class="share-buttons">
+
+                <a
+                    href="{{ whatsapp_link }}"
+                    target="_blank"
+                    class="whatsapp-btn">
+
+                    Share on WhatsApp
+
+                </a>
+
+            </div>
+
+
+            <p
+                id="dashboardCopyMessage"
+                class="copy-message">
+            </p>
+
+        </div>
+
+
+        <div class="dashboard-actions">
+
+            <a
+                href="{{ url_for('home') }}"
+                class="secondary-btn">
+
+                Back to Workshop
+
+            </a>
+
+
+            <a
+                href="{{ url_for('leaderboard') }}"
+                class="primary-btn">
+
+                View Leaderboard
+
+            </a>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<script>
+
+function copyReferralLink() {
+
+    const link =
+        document.getElementById(
+            "dashboardReferralLink"
+        );
+
+    const message =
+        document.getElementById(
+            "dashboardCopyMessage"
+        );
+
+    navigator.clipboard.writeText(
+        link.value
+    ).then(function() {
+
+        message.textContent =
+            "Referral link copied successfully!";
+
+    }).catch(function() {
+
+        link.select();
+
+        document.execCommand("copy");
+
+        message.textContent =
+            "Referral link copied successfully!";
+
+    });
+
+}
+
+</script>
+
+</body>
+
+</html>

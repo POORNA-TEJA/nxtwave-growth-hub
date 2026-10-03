@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Registration Successful
+    </title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+    <section class="success-section">
+
+        <div class="success-container">
+
+            <div class="success-icon">
+                ✓
+            </div>
+
+
+            <p class="tag">
+                REGISTRATION SUCCESSFUL
+            </p>
+
+
+            <h1>
+                You're In, {{ name }}!
+            </h1>
+
+
+            <p class="success-message">
+                Your registration for the AI workshop
+                has been recorded.
+            </p>
+
+
+            <div class="referral-box">
+
+                <p>
+                    Your Referral Code
+                </p>
+
+                <h2>
+                    {{ referral_code }}
+                </h2>
+
+                <p>
+                    Invite your friends using your
+                    personal referral link.
+                </p>
+
+            </div>
+
+
+            <div class="share-section">
+
+                <label for="referralLink">
+                    Your Referral Link
+                </label>
+
+
+                <div class="share-link-container">
+
+                    <input
+                        type="text"
+                        id="referralLink"
+                        value="{{ referral_link }}"
+                        readonly
+                    >
+
+                    <button
+                        type="button"
+                        class="copy-btn"
+                        onclick="copyReferralLink()">
+
+                        Copy
+
+                    </button>
+
+                </div>
+
+
+                <div class="share-buttons">
+
+                    <a
+                        href="https://wa.me/?text=Join%20me%20for%20the%20free%20AI%20workshop%20%27Build%20Your%20First%20AI%20Project%20in%2060%20Minutes%27.%20Register%20here:%20{{ referral_link }}"
+                        target="_blank"
+                        class="whatsapp-btn">
+
+                        Share on WhatsApp
+
+                    </a>
+
+                </div>
+
+
+                <p
+                    id="copyMessage"
+                    class="copy-message">
+                </p>
+
+            </div>
+
+
+            <div class="success-actions">
+
+                <a
+                    href="{{ dashboard_link }}"
+                    class="primary-btn">
+
+                    Open My Dashboard
+
+                </a>
+
+            </div>
+
+
+            <a
+                href="/"
+                class="back-link">
+
+                ← Back to Workshop
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <script>
+
+        function copyReferralLink() {
+
+            const link =
+                document.getElementById(
+                    "referralLink"
+                );
+
+            navigator.clipboard.writeText(
+                link.value
+            )
+            .then(function () {
+
+                document.getElementById(
+                    "copyMessage"
+                ).textContent =
+                    "Referral link copied!";
+
+            })
+            .catch(function () {
+
+                link.select();
+
+                document.execCommand("copy");
+
+                document.getElementById(
+                    "copyMessage"
+                ).textContent =
+                    "Referral link copied!";
+
+            });
+
+        }
+
+    </script>
+
+</body>
+
+</html>
