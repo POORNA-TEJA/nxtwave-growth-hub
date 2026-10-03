@@ -9,17 +9,22 @@ from urllib.parse import quote
 
 app = Flask(__name__)
 
-DATABASE = "database.db"
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATABASE = os.path.join(BASE_DIR, "database.db")
+
 
 app.secret_key = os.environ.get(
     "SECRET_KEY",
     "local-development-secret-key"
 )
 
+
 ADMIN_USERNAME = os.environ.get(
     "ADMIN_USERNAME",
     "admin"
 )
+
 
 ADMIN_PASSWORD = os.environ.get(
     "ADMIN_PASSWORD",
@@ -51,6 +56,9 @@ def create_database():
 
     connection.commit()
     connection.close()
+
+
+create_database()
 
 
 def generate_referral_code(name):
@@ -351,6 +359,7 @@ def dashboard(referral_code):
         ) * 100
 
     else:
+
         milestone_progress = 100
 
     milestone_progress = min(
@@ -628,5 +637,4 @@ def admin():
 
 
 if __name__ == "__main__":
-    create_database()
     app.run(debug=True)
