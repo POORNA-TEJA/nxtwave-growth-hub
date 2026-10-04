@@ -5,109 +5,200 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
-    <title>Admin Login | Campus Growth</title>
+    <title>
+        Secure Admin Login
+    </title>
 
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/style.css') }}">
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+
+        .security-box {
+
+            max-width: 460px;
+            margin: 0 auto;
+            background: #111827;
+            border: 1px solid #26344d;
+            border-radius: 18px;
+            padding: 30px;
+
+        }
+
+        .security-badge {
+
+            display: inline-block;
+            padding: 7px 12px;
+            border-radius: 999px;
+            background: #17345d;
+            color: #65aaff;
+            font-weight: 700;
+            font-size: 12px;
+            margin-bottom: 15px;
+
+        }
+
+        .security-help {
+
+            color: #9eb0c9;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-top: 15px;
+
+        }
+
+        .error-box {
+
+            background: #401b24;
+            border: 1px solid #7d3442;
+            color: #ffb5c0;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+
+        }
+
+        .message-box {
+
+            background: #17345d;
+            border: 1px solid #315c91;
+            color: #cce2ff;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+
+        }
+
+    </style>
 
 </head>
 
+
 <body>
 
-    <section class="admin-login-section">
+<section class="admin-section">
 
-        <div class="admin-login-container">
-
-            <div class="admin-login-icon">
-                🔐
-            </div>
-
-            <p class="tag">
-                CAMPAIGN CONTROL CENTER
-            </p>
-
-            <h1>
-                Admin Login
-            </h1>
-
-            <p class="admin-login-description">
-                Sign in to access the campaign dashboard
-                and growth analytics.
-            </p>
+<div class="admin-container">
 
 
-            {% if error %}
+    <div class="admin-header">
 
-            <div class="admin-login-error">
-                {{ error }}
-            </div>
+        <p class="tag">
+            CAMPAIGN CONTROL CENTER
+        </p>
 
-            {% endif %}
+        <h1>
+            Secure Admin Login
+        </h1>
 
+        <p>
+            Authorized access only.
+        </p>
 
-            <form method="POST"
-                  action="{{ url_for('admin_login') }}">
-
-
-                <div class="admin-login-group">
-
-                    <label for="username">
-                        Username
-                    </label>
-
-                    <input
-                        type="text"
-                        id="username"
-                        name="username"
-                        placeholder="Enter admin username"
-                        required
-                        autocomplete="username">
-
-                </div>
+    </div>
 
 
-                <div class="admin-login-group">
-
-                    <label for="password">
-                        Password
-                    </label>
-
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        placeholder="Enter admin password"
-                        required
-                        autocomplete="current-password">
-
-                </div>
+    <div class="security-box">
 
 
-                <button
-                    type="submit"
-                    class="admin-login-button">
+        <span class="security-badge">
 
-                    Sign In
+            🔒 PROTECTED AREA
 
-                </button>
-
-            </form>
+        </span>
 
 
-            <a
-                href="{{ url_for('home') }}"
-                class="admin-login-back">
+        {% if error %}
 
-                ← Back to Workshop
+        <div class="error-box">
 
-            </a>
+            {{ error }}
 
         </div>
 
-    </section>
+        {% endif %}
+
+
+        {% if message %}
+
+        <div class="message-box">
+
+            {{ message }}
+
+        </div>
+
+        {% endif %}
+
+
+        <form
+            method="POST"
+            autocomplete="off">
+
+
+            <label>
+                Admin Username
+            </label>
+
+
+            <input
+                type="text"
+                name="username"
+                required
+                autocomplete="username">
+
+
+            <label
+                style="display:block;margin-top:15px">
+
+                Admin Password
+
+            </label>
+
+
+            <input
+                type="password"
+                name="password"
+                required
+                autocomplete="current-password">
+
+
+            <button
+                type="submit"
+                class="primary-btn"
+                style="
+                    width:100%;
+                    margin-top:20px;
+                ">
+
+                Sign In Securely
+
+            </button>
+
+
+        </form>
+
+
+        <p class="security-help">
+
+            Sessions automatically expire after
+            30 minutes of inactivity. Multiple
+            failed login attempts are temporarily
+            blocked.
+
+        </p>
+
+
+    </div>
+
+
+</div>
+
+</section>
 
 </body>
 

@@ -9,455 +9,1205 @@
           content="width=device-width, initial-scale=1.0">
 
     <title>
-        Admin Campaign Dashboard
+        Growth Campaign Control Center
     </title>
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
 
+    <style>
+
+        .analytics-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(4, 1fr);
+            gap: 16px;
+            margin: 24px 0;
+        }
+
+        .analytics-card,
+        .insight-card,
+        .funnel-card,
+        .segment-card {
+
+            background: #111827;
+            border: 1px solid #26344d;
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .analytics-card .small,
+        .insight-card .small {
+
+            font-size: 12px;
+            color: #91a4c2;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+
+        }
+
+        .analytics-card h3 {
+
+            font-size: 28px;
+            margin: 8px 0;
+
+        }
+
+        .analytics-card p {
+
+            margin: 0;
+            color: #a9b8ce;
+            font-size: 13px;
+
+        }
+
+        .progress-track {
+
+            height: 12px;
+            background: #202b40;
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 12px 0;
+
+        }
+
+        .progress-fill {
+
+            height: 100%;
+            background: #4f9cff;
+            border-radius: 20px;
+
+        }
+
+        .status-pill {
+
+            display: inline-block;
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: #17345d;
+            color: #65aaff;
+            font-weight: 700;
+
+        }
+
+        .recommendation {
+
+            font-size: 16px;
+            line-height: 1.6;
+            color: #e8eef8;
+
+        }
+
+        .analytics-two {
+
+            display: grid;
+            grid-template-columns:
+                1.4fr 0.9fr;
+            gap: 18px;
+            margin: 18px 0;
+
+        }
+
+        .funnel-row {
+
+            margin: 14px 0;
+
+        }
+
+        .funnel-label {
+
+            display: flex;
+            justify-content: space-between;
+            color: #c7d3e5;
+            font-size: 13px;
+
+        }
+
+        .bar {
+
+            height: 9px;
+            background: #202b40;
+            border-radius: 20px;
+            margin-top: 7px;
+            overflow: hidden;
+
+        }
+
+        .bar span {
+
+            display: block;
+            height: 100%;
+            background: #4f9cff;
+
+        }
+
+        .segment-grid {
+
+            display: grid;
+            grid-template-columns:
+                repeat(3, 1fr);
+            gap: 14px;
+            margin: 18px 0;
+
+        }
+
+        .segment-card h3 {
+
+            margin: 5px 0 8px;
+
+        }
+
+        .segment-card p {
+
+            color: #a9b8ce;
+            font-size: 13px;
+            line-height: 1.5;
+
+        }
+
+        .admin-table-search {
+
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #2b3952;
+            background: #0c1321;
+            color: white;
+            margin-bottom: 12px;
+
+        }
+
+        .security-note {
+
+            background: #0d1728;
+            border: 1px solid #28456c;
+            border-radius: 12px;
+            padding: 14px;
+            color: #b9c9df;
+            font-size: 13px;
+            margin: 18px 0;
+
+        }
+
+        .admin-topbar {
+
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+
+        }
+
+        .mini-btn {
+
+            display: inline-block;
+            padding: 9px 13px;
+            border: 1px solid #355078;
+            border-radius: 9px;
+            color: #dce8f8;
+            text-decoration: none;
+            background: #101a2c;
+
+        }
+
+        .mini-btn:hover {
+
+            background: #17243a;
+
+        }
+
+        @media(max-width: 900px) {
+
+            .analytics-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+            }
+
+            .analytics-two {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+            .segment-grid {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+        }
+
+        @media(max-width: 560px) {
+
+            .analytics-grid {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
-    <section class="admin-section">
+<section class="admin-section">
 
-        <div class="admin-container">
+<div class="admin-container">
 
 
-            <div class="admin-header">
+    <div class="admin-topbar">
 
-                <p class="tag">
-                    CAMPAIGN CONTROL CENTER
+        <a
+            href="/admin/export"
+            class="mini-btn">
+
+            Export CSV
+
+        </a>
+
+
+        <a
+            href="/admin/logout"
+            class="mini-btn">
+
+            Secure Logout
+
+        </a>
+
+    </div>
+
+
+    <div class="admin-header">
+
+        <p class="tag">
+            CAMPAIGN CONTROL CENTER
+        </p>
+
+        <h1>
+            Growth Campaign Dashboard
+        </h1>
+
+        <p>
+            Monitor registrations, referral performance,
+            growth health and campaign decisions.
+        </p>
+
+    </div>
+
+
+    <div class="security-note">
+
+        <strong>
+            Admin Security:
+        </strong>
+
+        Protected route •
+        Session timeout: 30 minutes •
+        Failed-login protection enabled •
+        Secure logout enabled.
+
+    </div>
+
+
+    <!-- BASIC METRICS -->
+
+    <div class="admin-stats">
+
+
+        <div class="admin-stat-card">
+
+            <p>
+                Total Registrations
+            </p>
+
+            <h2>
+                {{ total_registrations }}
+            </h2>
+
+            <span>
+                Target:
+                {{ campaign_target }}
+            </span>
+
+        </div>
+
+
+        <div class="admin-stat-card">
+
+            <p>
+                Referral Registrations
+            </p>
+
+            <h2>
+                {{ referral_registrations }}
+            </h2>
+
+            <span>
+                Growth-driven
+            </span>
+
+        </div>
+
+
+        <div class="admin-stat-card">
+
+            <p>
+                Direct Registrations
+            </p>
+
+            <h2>
+                {{ direct_registrations }}
+            </h2>
+
+            <span>
+                Without referral
+            </span>
+
+        </div>
+
+
+        <div class="admin-stat-card">
+
+            <p>
+                Active Referrers
+            </p>
+
+            <h2>
+                {{ active_referrers }}
+            </h2>
+
+            <span>
+                Students referring others
+            </span>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- CAMPAIGN PROGRESS -->
+
+    <div
+        class="admin-card"
+        style="margin-top:20px">
+
+
+        <div
+            style="
+                display:flex;
+                justify-content:space-between;
+                gap:20px;
+                align-items:center;
+                flex-wrap:wrap;
+            ">
+
+
+            <div>
+
+                <p class="card-label">
+                    CAMPAIGN PROGRESS
                 </p>
 
-                <h1>
-                    Growth Campaign Dashboard
-                </h1>
+                <h2 style="margin:5px 0">
 
-                <p>
-                    Monitor registrations, referrals,
-                    and campaign progress.
+                    {{ total_registrations }}
+                    /
+                    {{ campaign_target }}
+
+                </h2>
+
+                <p style="color:#9eb0c9">
+
+                    {{ registrations_remaining }}
+                    registrations remaining
+                    to reach the campaign target.
+
                 </p>
 
             </div>
 
 
-            <!-- =================================
-                 OVERVIEW CARDS
-            ================================== -->
+            <div style="text-align:right">
 
-            <div class="admin-stats">
+                <h2>
+                    {{ campaign_progress }}%
+                </h2>
 
+                <span class="status-pill">
 
-                <div class="admin-stat-card">
+                    {{ growth_status }}
 
-                    <p class="card-label">
-                        Total Registrations
-                    </p>
-
-                    <h2>
-                        {{ total_registrations }}
-                    </h2>
-
-                    <span>
-                        Target: {{ target }}
-                    </span>
-
-                </div>
-
-
-                <div class="admin-stat-card">
-
-                    <p class="card-label">
-                        Referral Registrations
-                    </p>
-
-                    <h2>
-                        {{ referral_registrations }}
-                    </h2>
-
-                    <span>
-                        Growth-driven
-                    </span>
-
-                </div>
-
-
-                <div class="admin-stat-card">
-
-                    <p class="card-label">
-                        Direct Registrations
-                    </p>
-
-                    <h2>
-                        {{ direct_registrations }}
-                    </h2>
-
-                    <span>
-                        Without referral
-                    </span>
-
-                </div>
-
-
-                <div class="admin-stat-card">
-
-                    <p class="card-label">
-                        Active Referrers
-                    </p>
-
-                    <h2>
-                        {{ total_referrers }}
-                    </h2>
-
-                    <span>
-                        Students referring others
-                    </span>
-
-                </div>
-
-
-            </div>
-
-
-            <!-- =================================
-                 CAMPAIGN PROGRESS
-            ================================== -->
-
-            <div class="admin-panel">
-
-                <div class="admin-panel-header">
-
-                    <div>
-
-                        <p class="card-label">
-                            Campaign Progress
-                        </p>
-
-                        <h2>
-                            {{ total_registrations }}
-                            /
-                            {{ target }}
-                        </h2>
-
-                    </div>
-
-                    <strong class="admin-percentage">
-                        {{ progress }}%
-                    </strong>
-
-                </div>
-
-
-                <div class="progress-bar admin-progress">
-
-                    <div
-                        class="progress-fill"
-                        style="width: {{ progress }}%;">
-                    </div>
-
-                </div>
-
-
-                <p class="progress-caption">
-                    Registration target for the campaign:
-                    {{ target }} students
-                </p>
-
-            </div>
-
-
-            <!-- =================================
-                 TOP REFERRERS
-            ================================== -->
-
-            <div class="admin-panel">
-
-                <div class="admin-panel-title">
-
-                    <div>
-
-                        <p class="card-label">
-                            REFERRAL PERFORMANCE
-                        </p>
-
-                        <h2>
-                            Top Referrers
-                        </h2>
-
-                    </div>
-
-                    <a
-                        href="/leaderboard"
-                        class="small-action-btn">
-
-                        Full Leaderboard
-
-                    </a>
-
-                </div>
-
-
-                <div class="admin-table-wrapper">
-
-                    <table class="admin-table">
-
-                        <thead>
-
-                            <tr>
-
-                                <th>
-                                    Rank
-                                </th>
-
-                                <th>
-                                    Student
-                                </th>
-
-                                <th>
-                                    College
-                                </th>
-
-                                <th>
-                                    Referral Code
-                                </th>
-
-                                <th>
-                                    Referrals
-                                </th>
-
-                            </tr>
-
-                        </thead>
-
-
-                        <tbody>
-
-                            {% for referrer in top_referrers %}
-
-                            <tr>
-
-                                <td>
-
-                                    {% if loop.index == 1 %}
-                                        🥇
-                                    {% elif loop.index == 2 %}
-                                        🥈
-                                    {% elif loop.index == 3 %}
-                                        🥉
-                                    {% else %}
-                                        {{ loop.index }}
-                                    {% endif %}
-
-                                </td>
-
-
-                                <td>
-                                    {{ referrer["name"] }}
-                                </td>
-
-
-                                <td>
-                                    {{ referrer["college"] }}
-                                </td>
-
-
-                                <td class="admin-code">
-                                    {{ referrer["referral_code"] }}
-                                </td>
-
-
-                                <td class="admin-referral-count">
-                                    {{ referrer["referral_count"] }}
-                                </td>
-
-                            </tr>
-
-                            {% else %}
-
-                            <tr>
-
-                                <td
-                                    colspan="5"
-                                    class="empty-leaderboard">
-
-                                    No referral activity yet.
-
-                                </td>
-
-                            </tr>
-
-                            {% endfor %}
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-            </div>
-
-
-            <!-- =================================
-                 RECENT REGISTRATIONS
-            ================================== -->
-
-            <div class="admin-panel">
-
-                <div class="admin-panel-title">
-
-                    <div>
-
-                        <p class="card-label">
-                            REGISTRATION ACTIVITY
-                        </p>
-
-                        <h2>
-                            Recent Registrations
-                        </h2>
-
-                    </div>
-
-                    <span class="live-indicator">
-                        ● LIVE DATA
-                    </span>
-
-                </div>
-
-
-                <div class="admin-table-wrapper">
-
-                    <table class="admin-table">
-
-                        <thead>
-
-                            <tr>
-
-                                <th>
-                                    Student
-                                </th>
-
-                                <th>
-                                    College
-                                </th>
-
-                                <th>
-                                    Email
-                                </th>
-
-                                <th>
-                                    Source
-                                </th>
-
-                                <th>
-                                    Date
-                                </th>
-
-                            </tr>
-
-                        </thead>
-
-
-                        <tbody>
-
-                            {% for registration in recent_registrations %}
-
-                            <tr>
-
-                                <td>
-                                    {{ registration["name"] }}
-                                </td>
-
-
-                                <td>
-                                    {{ registration["college"] }}
-                                </td>
-
-
-                                <td>
-                                    {{ registration["email"] }}
-                                </td>
-
-
-                                <td>
-
-                                    {% if registration["referred_by"] %}
-
-                                        <span class="source-referral">
-                                            Referral
-                                        </span>
-
-                                    {% else %}
-
-                                        <span class="source-direct">
-                                            Direct
-                                        </span>
-
-                                    {% endif %}
-
-                                </td>
-
-
-                                <td>
-                                    {{ registration["created_at"] }}
-                                </td>
-
-                            </tr>
-
-                            {% else %}
-
-                            <tr>
-
-                                <td
-                                    colspan="5"
-                                    class="empty-leaderboard">
-
-                                    No registrations yet.
-
-                                </td>
-
-                            </tr>
-
-                            {% endfor %}
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-            </div>
-
-
-            <!-- =================================
-                 ACTIONS
-            ================================== -->
-
-            <div class="admin-actions">
-
-                <a
-                    href="/"
-                    class="secondary-btn">
-
-                    Back to Workshop
-
-                </a>
-
-
-                <a
-                    href="/leaderboard"
-                    class="primary-btn">
-
-                    View Leaderboard
-
-                </a>
+                </span>
 
             </div>
 
 
         </div>
 
-    </section>
+
+        <div class="progress-track">
+
+            <div
+                class="progress-fill"
+                style="
+                    width:{{ campaign_progress }}%;
+                ">
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- ANALYTICS -->
+
+    <div class="analytics-grid">
+
+
+        <div class="analytics-card">
+
+            <div class="small">
+                Referral Contribution
+            </div>
+
+            <h3>
+                {{ referral_share }}%
+            </h3>
+
+            <p>
+                of all registrations came
+                through referrals.
+            </p>
+
+        </div>
+
+
+        <div class="analytics-card">
+
+            <div class="small">
+                Active Referrer Rate
+            </div>
+
+            <h3>
+                {{ active_referrer_rate }}%
+            </h3>
+
+            <p>
+                of registered students
+                have referred someone.
+            </p>
+
+        </div>
+
+
+        <div class="analytics-card">
+
+            <div class="small">
+                Avg Referrals / Referrer
+            </div>
+
+            <h3>
+                {{ average_referrals_per_referrer }}
+            </h3>
+
+            <p>
+                average registrations
+                generated per active referrer.
+            </p>
+
+        </div>
+
+
+        <div class="analytics-card">
+
+            <div class="small">
+                Daily Growth
+            </div>
+
+            <h3>
+                {{ daily_average }}
+            </h3>
+
+            <p>
+                average registrations per day.
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- SMART INSIGHT + FUNNEL -->
+
+    <div class="analytics-two">
+
+
+        <div class="insight-card">
+
+            <div class="small">
+                SMART GROWTH RECOMMENDATION
+            </div>
+
+            <h2 style="margin:8px 0">
+
+                {{ growth_status }}
+
+            </h2>
+
+            <p class="recommendation">
+
+                {{ growth_recommendation }}
+
+            </p>
+
+
+            <div style="margin-top:18px">
+
+                <div
+                    style="
+                        display:flex;
+                        justify-content:space-between;
+                        font-size:13px;
+                        color:#9eb0c9;
+                    ">
+
+                    <span>
+                        Growth Health Score
+                    </span>
+
+                    <strong>
+                        {{ growth_score }}/100
+                    </strong>
+
+                </div>
+
+
+                <div class="progress-track">
+
+                    <div
+                        class="progress-fill"
+                        style="
+                            width:{{ growth_score }}%;
+                        ">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="funnel-card">
+
+            <div class="small">
+                GROWTH FUNNEL
+            </div>
+
+
+            <div class="funnel-row">
+
+                <div class="funnel-label">
+
+                    <span>
+                        All registrations
+                    </span>
+
+                    <strong>
+                        {{ total_registrations }}
+                    </strong>
+
+                </div>
+
+                <div class="bar">
+
+                    <span style="width:100%"></span>
+
+                </div>
+
+            </div>
+
+
+            <div class="funnel-row">
+
+                <div class="funnel-label">
+
+                    <span>
+                        Referral registrations
+                    </span>
+
+                    <strong>
+                        {{ referral_registrations }}
+                        ({{ referral_share }}%)
+                    </strong>
+
+                </div>
+
+                <div class="bar">
+
+                    <span
+                        style="
+                            width:{{ referral_share }}%;
+                        ">
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="funnel-row">
+
+                <div class="funnel-label">
+
+                    <span>
+                        Direct registrations
+                    </span>
+
+                    <strong>
+                        {{ direct_registrations }}
+                        ({{ direct_share }}%)
+                    </strong>
+
+                </div>
+
+                <div class="bar">
+
+                    <span
+                        style="
+                            width:{{ direct_share }}%;
+                        ">
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <p
+                style="
+                    color:#8fa2bd;
+                    font-size:12px;
+                ">
+
+                Campaign data age:
+                {{ days_running }}
+                day(s).
+
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- SEGMENTS -->
+
+    <div class="segment-grid">
+
+
+        <div class="segment-card">
+
+            <div class="small">
+                POWER REFERRERS
+            </div>
+
+            <h3>
+                5+ referrals
+            </h3>
+
+            <p>
+
+                High-value participants.
+                Prioritize them for ambassador-style
+                outreach and recognition.
+
+            </p>
+
+        </div>
+
+
+        <div class="segment-card">
+
+            <div class="small">
+                GROWING REFERRERS
+            </div>
+
+            <h3>
+                1–4 referrals
+            </h3>
+
+            <p>
+
+                Best audience for milestone
+                nudges, WhatsApp sharing and
+                leaderboard motivation.
+
+            </p>
+
+        </div>
+
+
+        <div class="segment-card">
+
+            <div class="small">
+                OBSERVERS
+            </div>
+
+            <h3>
+                0 referrals
+            </h3>
+
+            <p>
+
+                Registered students who can
+                be activated with a first-referral
+                prompt.
+
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- TOP REFERRERS -->
+
+    <div class="admin-card">
+
+
+        <div
+            style="
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+                gap:15px;
+                flex-wrap:wrap;
+            ">
+
+            <div>
+
+                <p class="card-label">
+                    REFERRAL PERFORMANCE
+                </p>
+
+                <h2>
+                    Top Referrers
+                </h2>
+
+            </div>
+
+
+            <a
+                href="/leaderboard"
+                class="mini-btn">
+
+                Full Leaderboard
+
+            </a>
+
+        </div>
+
+
+        <input
+            id="referrerSearch"
+            class="admin-table-search"
+            placeholder="
+                Search student, college or referral code...
+            ">
+
+
+        <div class="admin-table-wrapper">
+
+            <table
+                class="admin-table"
+                id="referrerTable">
+
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Rank
+                        </th>
+
+                        <th>
+                            Student
+                        </th>
+
+                        <th>
+                            College
+                        </th>
+
+                        <th>
+                            Referral Code
+                        </th>
+
+                        <th>
+                            Referrals
+                        </th>
+
+                        <th>
+                            Segment
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                {% for referrer in top_referrers %}
+
+                    <tr>
+
+                        <td>
+
+                            {% if loop.index == 1 %}
+
+                                🥇
+
+                            {% elif loop.index == 2 %}
+
+                                🥈
+
+                            {% elif loop.index == 3 %}
+
+                                🥉
+
+                            {% else %}
+
+                                {{ loop.index }}
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <td>
+                            {{ referrer["name"] }}
+                        </td>
+
+
+                        <td>
+                            {{ referrer["college"] }}
+                        </td>
+
+
+                        <td>
+
+                            <strong>
+                                {{ referrer["referral_code"] }}
+                            </strong>
+
+                        </td>
+
+
+                        <td>
+
+                            <strong>
+                                {{ referrer["referral_count"] }}
+                            </strong>
+
+                        </td>
+
+
+                        <td>
+
+                            {% if
+                                referrer["referral_count"]
+                                >= 5
+                            %}
+
+                                Power Referrer
+
+                            {% elif
+                                referrer["referral_count"]
+                                >= 1
+                            %}
+
+                                Growing
+
+                            {% else %}
+
+                                Observer
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+
+                {% else %}
+
+                    <tr>
+
+                        <td colspan="6">
+
+                            No registrations yet.
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- RECENT REGISTRATIONS -->
+
+    <div
+        class="admin-card"
+        style="margin-top:20px">
+
+
+        <div class="section-heading">
+
+            <p class="card-label">
+                REGISTRATION ACTIVITY
+            </p>
+
+            <h2>
+                Recent Registrations
+            </h2>
+
+        </div>
+
+
+        <input
+            id="registrationSearch"
+            class="admin-table-search"
+            placeholder="
+                Search recent registrations...
+            ">
+
+
+        <div class="admin-table-wrapper">
+
+            <table
+                class="admin-table"
+                id="registrationTable">
+
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Student
+                        </th>
+
+                        <th>
+                            College
+                        </th>
+
+                        <th>
+                            Email
+                        </th>
+
+                        <th>
+                            Source
+                        </th>
+
+                        <th>
+                            Referral Code
+                        </th>
+
+                        <th>
+                            Date
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                {% for registration
+                    in recent_registrations %}
+
+                    <tr>
+
+                        <td>
+                            {{ registration["name"] }}
+                        </td>
+
+                        <td>
+                            {{ registration["college"] }}
+                        </td>
+
+                        <td>
+                            {{ registration["email"] }}
+                        </td>
+
+                        <td>
+
+                            {% if
+                                registration["referred_by"]
+                            %}
+
+                                <strong>
+                                    Referral
+                                </strong>
+
+                            {% else %}
+
+                                Direct
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+                            {{ registration["referral_code"] }}
+                        </td>
+
+                        <td>
+                            {{ registration["created_at"] }}
+                        </td>
+
+                    </tr>
+
+                {% else %}
+
+                    <tr>
+
+                        <td colspan="6">
+                            No registrations yet.
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- ACTIONS -->
+
+    <div class="admin-actions">
+
+        <a
+            href="/"
+            class="secondary-btn">
+
+            Back to Workshop
+
+        </a>
+
+
+        <a
+            href="/leaderboard"
+            class="primary-btn">
+
+            View Leaderboard
+
+        </a>
+
+    </div>
+
+
+</div>
+
+</section>
+
+
+<script>
+
+function filterTable(
+    inputId,
+    tableId
+) {
+
+    const input =
+        document.getElementById(
+            inputId
+        );
+
+    const rows =
+        document.querySelectorAll(
+            "#" +
+            tableId +
+            " tbody tr"
+        );
+
+    input.addEventListener(
+        "input",
+        function() {
+
+            const query =
+                this.value.toLowerCase();
+
+            rows.forEach(
+                row => {
+
+                    row.style.display =
+                        row.innerText
+                            .toLowerCase()
+                            .includes(query)
+                            ? ""
+                            : "none";
+
+                }
+            );
+
+        }
+    );
+}
+
+
+filterTable(
+    "referrerSearch",
+    "referrerTable"
+);
+
+
+filterTable(
+    "registrationSearch",
+    "registrationTable"
+);
+
+</script>
 
 </body>
 

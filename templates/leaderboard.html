@@ -19,154 +19,165 @@
 
 <body>
 
-    <section class="leaderboard-section">
+<section class="leaderboard-section">
 
-        <div class="leaderboard-container">
+<div class="leaderboard-container">
 
+    <div class="leaderboard-header">
 
-            <div class="leaderboard-header">
+        <p class="tag">
+            CAMPUS GROWTH
+        </p>
 
-                <p class="tag">
-                    CAMPUS GROWTH
-                </p>
+        <h1>
+            Referral Leaderboard
+        </h1>
 
-                <h1>
-                    Referral Leaderboard
-                </h1>
+        <p>
+            Students helping more people discover
+            the AI workshop.
+        </p>
 
-                <p>
-                    Students helping more people discover
-                    the AI workshop.
-                </p>
-
-            </div>
-
-
-            <div class="leaderboard-progress">
-
-                <div>
-
-                    <p class="card-label">
-                        Campaign Progress
-                    </p>
-
-                    <h2>
-                        {{ total_registrations }}
-                        /
-                        {{ target }}
-                    </h2>
-
-                </div>
-
-                <strong>
-                    {{ progress }}%
-                </strong>
-
-            </div>
+    </div>
 
 
-            <div class="leaderboard-table-wrapper">
+    <div class="leaderboard-progress">
 
-                <table class="leaderboard-table">
+        <div>
 
-                    <thead>
+            <p class="card-label">
+                Campaign Progress
+            </p>
 
-                        <tr>
-
-                            <th>
-                                Rank
-                            </th>
-
-                            <th>
-                                Student
-                            </th>
-
-                            <th>
-                                College
-                            </th>
-
-                            <th>
-                                Referrals
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-
-                    <tbody>
-
-                        {% for leader in leaders %}
-
-                        <tr>
-
-                            <td>
-
-                                {% if loop.index == 1 %}
-                                    🥇
-                                {% elif loop.index == 2 %}
-                                    🥈
-                                {% elif loop.index == 3 %}
-                                    🥉
-                                {% else %}
-                                    {{ loop.index }}
-                                {% endif %}
-
-                            </td>
-
-                            <td>
-                                {{ leader["name"] }}
-                            </td>
-
-                            <td>
-                                {{ leader["college"] }}
-                            </td>
-
-                            <td class="leader-referrals">
-                                {{ leader["referral_count"] }}
-                            </td>
-
-                        </tr>
-
-                        {% else %}
-
-                        <tr>
-
-                            <td
-                                colspan="4"
-                                class="empty-leaderboard">
-
-                                No registrations yet.
-
-                            </td>
-
-                        </tr>
-
-                        {% endfor %}
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-
-            <div class="leaderboard-actions">
-
-                <a
-                    href="/"
-                    class="secondary-btn">
-
-                    Back to Workshop
-
-                </a>
-
-            </div>
-
+            <h2>
+                {{ total_registrations }}
+                /
+                {{ campaign_target }}
+            </h2>
 
         </div>
 
-    </section>
+        <strong>
+            {{ campaign_progress }}%
+        </strong>
+
+    </div>
+
+
+    <div class="leaderboard-table-wrapper">
+
+        <table class="leaderboard-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Rank
+                    </th>
+
+                    <th>
+                        Student
+                    </th>
+
+                    <th>
+                        College
+                    </th>
+
+                    <th>
+                        Referrals
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for leader in leaderboard %}
+
+                <tr>
+
+                    <td>
+
+                        {% if loop.index == 1 %}
+
+                            🥇
+
+                        {% elif loop.index == 2 %}
+
+                            🥈
+
+                        {% elif loop.index == 3 %}
+
+                            🥉
+
+                        {% else %}
+
+                            {{ loop.index }}
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <td>
+                        {{ leader["name"] }}
+                    </td>
+
+
+                    <td>
+                        {{ leader["college"] }}
+                    </td>
+
+
+                    <td class="leader-referrals">
+
+                        {{ leader["referral_count"] }}
+
+                    </td>
+
+                </tr>
+
+                {% else %}
+
+                <tr>
+
+                    <td
+                        colspan="4"
+                        class="empty-leaderboard">
+
+                        No registrations yet.
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <div class="leaderboard-actions">
+
+        <a
+            href="/"
+            class="secondary-btn">
+
+            Back to Workshop
+
+        </a>
+
+    </div>
+
+</div>
+
+</section>
 
 </body>
 
